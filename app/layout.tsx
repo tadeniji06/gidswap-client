@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 		siteName: "Gidswap Exchange",
 		images: [
 			{
-				url: "",
+				url: "https://gidswapv2.vercel.app/favicon.png",
 				width: 700,
 				height: 300,
 				alt: "Gidswap Exchange",

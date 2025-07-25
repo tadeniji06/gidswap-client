@@ -4,16 +4,34 @@ import { logo } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { signUp } from "@/functions/authFunctions";
+import { useRouter } from "next/navigation";
 
 const SignUp = () => {
 	const [fullName, setFullName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
+	const [success, setSuccess] = useState("");
+	const navigate = useRouter();
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log("Signup submitted:", { fullName, email, password });
-		// Add actual signup logic here (e.g., API call)
+		setError("");
+		setSuccess("");
+		setLoading(true);
+
+		try {
+			const res = await signUp({ fullName, email, password });
+			setSuccess("Account created! You can now sign in.");
+			console.log("Signed up:", res);
+			navigate.push('/signin')
+		} catch (err: any) {
+			setError(err.message || "Signup failed");
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -30,13 +48,13 @@ const SignUp = () => {
 					Enjoy seamless trading functions.
 				</p>
 
+				{error && <p className='text-red-500 text-sm text-center mb-4'>{error}</p>}
+				{success && <p className='text-green-500 text-sm text-center mb-4'>{success}</p>}
+
 				<form onSubmit={handleSubmit} className='space-y-5'>
 					{/* Full Name */}
 					<div>
-						<label
-							htmlFor='fullName'
-							className='block text-sm font-medium text-white mb-1'
-						>
+						<label htmlFor='fullName' className='block text-sm font-medium text-white mb-1'>
 							Full Name
 						</label>
 						<input
@@ -51,10 +69,7 @@ const SignUp = () => {
 
 					{/* Email */}
 					<div>
-						<label
-							htmlFor='email'
-							className='block text-sm font-medium text-white mb-1'
-						>
+						<label htmlFor='email' className='block text-sm font-medium text-white mb-1'>
 							Email
 						</label>
 						<input
@@ -69,10 +84,7 @@ const SignUp = () => {
 
 					{/* Password */}
 					<div>
-						<label
-							htmlFor='password'
-							className='block text-sm font-medium text-white mb-1'
-						>
+						<label htmlFor='password' className='block text-sm font-medium text-white mb-1'>
 							Password
 						</label>
 						<input
@@ -87,10 +99,7 @@ const SignUp = () => {
 
 					{/* Already have an account */}
 					<div className='mt-5 flex items-center justify-center text-sm text-gray-300'>
-						<Link
-							href='/signin'
-							className='underline hover:text-white transition'
-						>
+						<Link href='/signin' className='underline hover:text-white transition'>
 							Already have an account?
 						</Link>
 					</div>
@@ -98,9 +107,10 @@ const SignUp = () => {
 					{/* Submit */}
 					<button
 						type='submit'
-						className='w-full bg-main text-white font-semibold py-3 rounded-lg hover:bg-secondary transition-all'
+						disabled={loading}
+						className='w-full bg-main text-white font-semibold py-3 rounded-lg hover:bg-secondary transition-all disabled:opacity-50'
 					>
-						Sign Up
+						{loading ? "Creating account..." : "Sign Up"}
 					</button>
 				</form>
 			</div>

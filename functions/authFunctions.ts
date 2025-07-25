@@ -1,4 +1,4 @@
-import { apiUrl } from "@/utils/api";
+import { prodUrl } from "@/utils/api";
 import axios from "axios";
 
 // Type definitions
@@ -29,7 +29,7 @@ export const login = async ({
 }: LoginCredentials): Promise<AuthResponse> => {
 	try {
 		const response = await axios.post<AuthResponse>(
-			`${apiUrl}/auth/login`,
+			`${prodUrl}/auth/login`,
 			{
 				email,
 				password,
@@ -56,7 +56,7 @@ export const signUp = async ({
 }: SignUpData): Promise<AuthResponse> => {
 	try {
 		const response = await axios.post<AuthResponse>(
-			`${apiUrl}/auth/signup`,
+			`${prodUrl}/auth/signup`,
 			{
 				fullName,
 				email,

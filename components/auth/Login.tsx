@@ -4,15 +4,38 @@ import { logo } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { login } from "@/functions/authFunctions";
+import { useRouter } from "next/navigation";
+import { setCookie } from "@/utils/cookies";
 
 const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
+	const [success, setSuccess] = useState("");
+	const navigate = useRouter();
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log("Login submitted:", { email, password });
-		// Add actual login logic here (e.g., API call)
+		setError("");
+		setSuccess("");
+		setLoading(true);
+		try {
+			const res = await login({ email, password });
+			setSuccess("Login successful! Redirecting...");
+			// Save token, redirect, etc.
+			navigate.push("/dashboard");
+			console.log("Logged in user:", res.user);
+			const user = res.user;
+			setCookie("user", user, 7);
+			const token = res.token;
+			setCookie("auth_token", token, 7);
+		} catch (err: any) {
+			setError(err.message || "Login failed");
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -29,7 +52,19 @@ const Login = () => {
 					Enjoy seamless trading functions.
 				</p>
 
+				{error && (
+					<p className='text-red-500 text-sm text-center mb-4'>
+						{error}
+					</p>
+				)}
+				{success && (
+					<p className='text-green-500 text-sm text-center mb-4'>
+						{success}
+					</p>
+				)}
+
 				<form onSubmit={handleSubmit} className='space-y-5'>
+					{/* Email */}
 					<div>
 						<label
 							htmlFor='email'
@@ -47,6 +82,7 @@ const Login = () => {
 						/>
 					</div>
 
+					{/* Password */}
 					<div>
 						<label
 							htmlFor='password'
@@ -64,18 +100,19 @@ const Login = () => {
 						/>
 					</div>
 
-					<div className='mt-5 flex items-center justify-between'>
-						<p>Forgot Password</p>
-						<Link href={"/signup"}>
-							<p>Create Account?</p>
+					<div className='mt-5 flex items-center justify-between text-sm text-gray-300'>
+						<p>Forgot Password?</p>
+						<Link href='/signup'>
+							<p className='underline'>Create Account?</p>
 						</Link>
 					</div>
 
 					<button
 						type='submit'
-						className='w-full bg-main text-white font-semibold py-3 rounded-lg hover:bg-secondary transition-all'
+						disabled={loading}
+						className='w-full bg-main text-white font-semibold py-3 rounded-lg hover:bg-secondary transition-all disabled:opacity-50'
 					>
-						Sign In
+						{loading ? "Logging in..." : "Sign In"}
 					</button>
 				</form>
 			</div>

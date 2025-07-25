@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation, Variants } from "framer-motion";
 import { logo, eth, btc, rocket, rates, secure } from "@/assets";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,7 +13,7 @@ const Onboarding = () => {
 		controls.start("visible");
 	}, [controls]);
 
-	const containerVariants = {
+	const containerVariants: Variants = {
 		hidden: { opacity: 0 },
 		visible: {
 			opacity: 1,
@@ -24,7 +24,7 @@ const Onboarding = () => {
 		},
 	};
 
-	const itemVariants = {
+	const itemVariants: Variants = {
 		hidden: { y: 20, opacity: 0 },
 		visible: {
 			y: 0,
@@ -36,8 +36,8 @@ const Onboarding = () => {
 		},
 	};
 
-	const floatingVariants = {
-		animate: {
+	const floatingVariants: Variants = {
+		float: {
 			y: [-10, 10, -10],
 			transition: {
 				duration: 3,
@@ -47,26 +47,27 @@ const Onboarding = () => {
 		},
 	};
 
-	const pulseVariants = {
-		animate: {
+	const pulseVariants: Variants = {
+		pulse: (delay = 0) => ({
 			scale: [1, 1.05, 1],
 			transition: {
+				delay,
 				duration: 2,
 				repeat: Infinity,
 				ease: "easeInOut",
 			},
-		},
+		}),
 	};
 
 	return (
-		<div className='min-h-screen  relative overflow-hidden'>
+		<div className='min-h-screen relative overflow-hidden'>
 			{/* Background Elements */}
 			<div className='absolute inset-3'></div>
 
 			{/* Floating Crypto Icons */}
 			<motion.div
 				variants={floatingVariants}
-				animate='animate'
+				animate='float'
 				className='absolute top-20 left-10 opacity-30'
 			>
 				<Image src={btc} alt='Bitcoin' width={60} height={60} />
@@ -74,18 +75,16 @@ const Onboarding = () => {
 
 			<motion.div
 				variants={floatingVariants}
-				animate='animate'
+				animate='float'
 				className='absolute top-25 right-10 opacity-70'
-				style={{ animationDelay: "1s" }}
 			>
 				<Image src={eth} alt='Ethereum' width={50} height={50} />
 			</motion.div>
 
 			<motion.div
 				variants={floatingVariants}
-				animate='animate'
+				animate='float'
 				className='absolute bottom-32 left-20 opacity-20'
-				style={{ animationDelay: "2s" }}
 			>
 				<Image src={rocket} alt='Rocket' width={40} height={40} />
 			</motion.div>
@@ -150,13 +149,14 @@ const Onboarding = () => {
 				>
 					<motion.div
 						variants={pulseVariants}
-						animate='animate'
+						custom={0}
+						animate='pulse'
 						className='bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-xl p-6 text-center hover:bg-white/10 transition-all duration-300'
 					>
 						<div className='flex items-center justify-center mb-3'>
 							<Image
 								src={rocket}
-								alt='Bitcoin'
+								alt='Rocket'
 								width={60}
 								height={60}
 							/>
@@ -172,14 +172,14 @@ const Onboarding = () => {
 
 					<motion.div
 						variants={pulseVariants}
-						animate='animate'
-						style={{ animationDelay: "0.5s" }}
+						custom={0.5}
+						animate='pulse'
 						className='bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-xl p-6 text-center hover:bg-white/10 transition-all duration-300'
 					>
 						<div className='flex items-center justify-center mb-3'>
 							<Image
 								src={secure}
-								alt='Bitcoin'
+								alt='Secure'
 								width={60}
 								height={60}
 							/>
@@ -194,17 +194,12 @@ const Onboarding = () => {
 
 					<motion.div
 						variants={pulseVariants}
-						animate='animate'
-						style={{ animationDelay: "1s" }}
+						custom={1}
+						animate='pulse'
 						className='bg-white/5 backdrop-blur-sm border border-purple-500/20 rounded-xl p-6 text-center hover:bg-white/10 transition-all duration-300'
 					>
 						<div className='flex items-center justify-center mb-3'>
-							<Image
-								src={rates}
-								alt='Bitcoin'
-								width={60}
-								height={60}
-							/>
+							<Image src={rates} alt='Rates' width={60} height={60} />
 						</div>
 						<h3 className='text-white font-semibold mb-2'>
 							Best Rates
@@ -228,9 +223,7 @@ const Onboarding = () => {
 						>
 							<motion.div
 								className='absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0'
-								animate={{
-									x: [-100, 300],
-								}}
+								animate={{ x: [-100, 300] }}
 								transition={{
 									duration: 2,
 									repeat: Infinity,
@@ -256,7 +249,7 @@ const Onboarding = () => {
 					<p className='text-gray-500 font-bold mb-4'>
 						Tested and Trusted
 					</p>
-					<div className='flex justify-center items-center gap-8 '>
+					<div className='flex justify-center items-center gap-8'>
 						<motion.div
 							animate={{ rotate: 360 }}
 							transition={{
@@ -297,7 +290,7 @@ const Onboarding = () => {
 				</motion.div>
 			</motion.div>
 
-			{/* Gradient Overlay at Bottom */}
+			{/* Bottom Gradient */}
 			<div className='absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-900 to-transparent pointer-events-none'></div>
 		</div>
 	);

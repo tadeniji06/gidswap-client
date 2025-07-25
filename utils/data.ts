@@ -1,3 +1,27 @@
+export const navLinks = [
+	{
+		title: "Home",
+		link: "/",
+	},
+		{
+		title: "Profile",
+		link: "/",
+	},
+	{
+		title: "About Us",
+		link: "/",
+	},
+	{
+		title: "FAQs",
+		link: "/",
+	},
+	{
+		title: "Blog",
+		link: "/",
+	},
+];
+
+
 export const headerLinks = [
 	{
 		title: "Onboarding",

@@ -2,9 +2,12 @@
   "pages": {
     "/signin/page": [
       "static/chunks/app_globals_73c37791.css",
-      "static/chunks/node_modules_32eebc7d._.js",
+      "static/chunks/node_modules_ebf745cc._.js",
+      "static/chunks/_5413a216._.js",
       "static/chunks/app_layout_tsx_68b267f5._.js",
-      "static/chunks/node_modules_next_dist_client_components_builtin_global-error_d6f539c4.js",
+      "static/chunks/node_modules_next_dist_client_components_builtin_global-error_f8a4f79b.js",
+      "static/chunks/_8a3cc214._.js",
+      "static/chunks/app_signin_page_tsx_f8a4f79b._.js",
       "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_6aaa83c7._.js",
       "static/chunks/node_modules_next_dist_compiled_react-dom_1f56dc06._.js",
       "static/chunks/node_modules_next_dist_compiled_next-devtools_index_d575f738.js",

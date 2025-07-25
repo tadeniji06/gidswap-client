@@ -20,7 +20,7 @@ const SignUp = () => {
 		<div className='bg-secondary min-h-screen flex items-center justify-center px-6'>
 			<div className='bg-white/5 backdrop-blur-md border border-main rounded-2xl shadow-lg p-10 w-full max-w-md'>
 				<div className='flex justify-center mb-6'>
-					<Image src={logo} alt='Logo' width={100} height={100} />
+					<Image src={logo} alt='Logo' width={200} height={100} />
 				</div>
 
 				<h2 className='text-white text-2xl font-semibold text-center mb-2'>

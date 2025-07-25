@@ -1,7 +1,11 @@
+import Login from "@/components/auth/Login";
+
 const page = () => {
 	return (
-		<div>
-			<div>Login/SignUp</div>
+		<div className='min-h-screen'>
+			<div>
+				<Login />
+			</div>
 		</div>
 	);
 };
